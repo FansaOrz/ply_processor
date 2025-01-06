@@ -35,20 +35,39 @@ bool DataLoader::LoadConfig(const std::string& filename) {
   return true;
 }
 
-BaseData::BaseData(
-    const std::unordered_map<std::string, Attribute>& name_to_attributes) {
-  // Init vectors for each name
-  for (const auto& name_to_attribute : name_to_attributes) {
-    if (name_to_attribute.second.type == "int") {
-      int_variable_stores_[name_to_attribute.second.name] = std::vector<int>();
-    } else if (name_to_attribute.second.type == "float") {
-      float_variable_stores_[name_to_attribute.second.name] =
-          std::vector<float>();
-    } else if (name_to_attribute.second.type == "uchar") {
-      uchar_variable_stores_[name_to_attribute.second.name] =
-          std::vector<unsigned char>();
+template <typename T>
+std::vector<T> DataLoader::GetDataAccordingName(const std::string& name) {
+  if (T == float) {
+    std::vector<float> data;
+    for (const auto& data_base : data_) {
+      if (data->float_variable_stores_.find(name) !=
+          data->float_variable_stores_.end()) {
+        data.push_back(data->float_variable_stores_[name][0]);
+      }
     }
+    return data;
   }
+  if (T == int) {
+    std::vector<int> data;
+    for (const auto& data_base : data_) {
+      if (data->int_variable_stores_.find(name) !=
+          data->int_variable_stores_.end()) {
+        data.push_back(data->int_variable_stores_[name][0]);
+      }
+    }
+    return data;
+  }
+  if (T == uchar) {
+    std::vector<uchar> data;
+    for (const auto& data_base : data_) {
+      if (data->uchar_variable_stores_.find(name) !=
+          data->uchar_variable_stores_.end()) {
+        data.push_back(data->uchar_variable_stores_[name][0]);
+      }
+    }
+    return data;
+  }
+  return {};
 }
 
 }  // namespace ply_processor

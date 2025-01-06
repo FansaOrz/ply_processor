@@ -1,37 +1,26 @@
 attributes:
   - name: "xyz"
-    compression_type: 1 # [vector quantization: 0, scale quantization: 1, huffman coding: 2, none: 3]
-    type: float
+    compression_type: 1 # [vector quantization: 0, scalar quantization: 1, huffman coding: 2, none: 3]
     components: 3
 
   - name: "normal"
-    compression_type: 1 # [vector quantization: 0, scale quantization: 1, huffman coding: 2, none: 3]
-    type: float
+    compression_type: 1
     components: 3
 
-  # sh_rest, representing rest coefficient of Spherical harmonic
+  # sh_coeff, all coefficient of Spherical harmonic
   - name: "sh_coeff"
-    compression_type: 0 # [vector quantization: 0, scale quantization: 1, huffman coding: 2, none: 3]
-    type: float
+    compression_type: 0
     components: 48
 
   # scalar attributes which are not vectors
-  - name: "scalar_scal_opacity"
-    compression_type: 1 # [vector quantization: 0, scale quantization: 1, huffman coding: 2, none: 3]
-    type: float
+  - name: "opacity"
+    compression_type: 1 
     components: 1
 
   - name: "scale"
-    compression_type: 1 # [vector quantization: 0, scale quantization: 1, huffman coding: 2, none: 3]
-    type: float
+    compression_type: 1 
     components: 3
 
   - name: "rotation"
-    compression_type: 1 # [vector quantization: 0, scale quantization: 1, huffman coding: 2, none: 3]
-    type: float
+    compression_type: 1 
     components: 4
-
-  - name: "rgb"
-    compression_type: 1 # [vector quantization: 0, scale quantization: 1, huffman coding: 2, none: 3]
-    type: uchar
-    components: 3

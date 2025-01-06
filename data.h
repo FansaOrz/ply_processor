@@ -1,6 +1,7 @@
 #pragma once
 
 #include <yaml-cpp/yaml.h>
+
 #include <iostream>
 #include <vector>
 
@@ -10,7 +11,7 @@ namespace ply_processor {
 enum CompressionType {
   NONE = 0,
   VQ,  // Vector Quantization
-  SQ,  // Scale Quantization
+  SQ,  // Scalar Quantization
   HC,  // Huffman Coding
 
 };
@@ -22,13 +23,19 @@ struct Attribute {
   int components = 0;
 };
 
+template <typename T>
+struct ScalarQuantizationData {
+  std::vector<uint8_t> data;
+  T min_value;
+  T max_value;
+};
+
 /*
- * 通用的保存ply原始数据
+ * Each basedata save one vertex of ply file.
  */
 class BaseData {
  public:
-  BaseData(
-      const std::unordered_map<std::string, Attribute>& name_to_attributes);
+  BaseData() = default;
   ~BaseData() = default;
 
  public:
@@ -61,7 +68,7 @@ class DataLoader {
   }
 
  private:
-  // 需要按照config的顺序排序
+  // We need to know the order of config, so we use unordered_map and vector.
   std::unordered_map<std::string, Attribute> name_to_attributes_;
   std::vector<std::string> name_order_;
 

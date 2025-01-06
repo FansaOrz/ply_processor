@@ -15,7 +15,8 @@ class Compressor {
  private:
   std::shared_ptr<DataLoader> data_loader_;
 
-  // 每一个属性的向量量化后对应的codebook
+  // codebook of each attribute after vector quantization
   std::map<std::string, std::vector<std::vector<float>>> name_to_codebooks_;
+  std::map<std::string, ScalarQuantizationData> name_to_scalar_quantization_results_;
 };
 }  // namespace ply_processor
