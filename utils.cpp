@@ -54,35 +54,28 @@ void LoadPLY(const std::string& filename,
   }
 }
 
-bool VectorQuantization(const std::vector<std::vector<float>>& input_vectors,
+bool VectorQuantization(std::shared_ptr<DataLoader> data_loader,
+                        const Attribute& attribute,
                         std::vector<std::vector<float>>& codebooks,
                         std::vector<size_t>& indices) {
   // TODO: implement vector quantization
   return true;
 }
 
-template <typename T>
-std::pair<std::vector<uint8_t>, std::pair<T, T>> ScalarQuantization(
-    const std::vector<T>& input) {
-  // Get min and max values from the input vector
-  T min_val = *std::min_element(input.begin(), input.end());
-  T max_val = *std::max_element(input.begin(), input.end());
+bool ScalarQuantization(std::shared_ptr<DataLoader> data_loader,
+                        const Attribute& attribute,
+                        const std::vector<uint8_t>& input, float& min_val,
+                        float& max_val) {
+  // TODO: implement vector quantization
+  return true;
+}
 
-  // If all values are the same, return a vector of 255s and min/max as
-  if (min_val == max_val) {
-    return {std::vector<uint8_t>(input.size(), 255), {min_val, max_val}};
-  }
-
-  std::vector<uint8_t> quantized;
-  const float scale = 255.0f / static_cast<float>(max_val - min_val);
-
-  for (const T& value : input) {
-    const T quantized_value = std::min(std::max(value, min_val), max_val);
-    quantized.push_back(
-        static_cast<uint8_t>(std::lround((quantized_value - min_val) * scale)));
-  }
-
-  return {quantized, {min_val, max_val}};
+bool HuffmanCoding(std::shared_ptr<DataLoader> data_loader,
+                   const Attribute& attribute,
+                   std::unordered_map<char, std::string>& char_to_code,
+                   std::vector<uint8_t>& encoded_data, int& padding_bits) {
+  // TODO: implement vector quantization
+  return true;
 }
 
 }  // namespace ply_processor

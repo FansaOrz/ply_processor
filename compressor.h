@@ -9,14 +9,24 @@ class Compressor {
   Compressor(const std::string& config_path, const std::string& ply_path);
   ~Compressor() = default;
 
+  /*
+   * @brief Compress the loaded data.
+   */
   bool Compress();
+  /*
+   * @brief Output the compressed data to a binary file.
+   *
+   * @param output_path The path of the output file.
+   */
   bool OutputCompressedData(const std::string& output_path);
 
  private:
   std::shared_ptr<DataLoader> data_loader_;
 
-  // codebook of each attribute after vector quantization
-  std::map<std::string, std::vector<std::vector<float>>> name_to_codebooks_;
-  std::map<std::string, ScalarQuantizationData> name_to_scalar_quantization_results_;
+  std::map<std::string, VectorQuantizationData>
+      name_to_vector_quantization_results_;
+  std::map<std::string, ScalarQuantizationData>
+      name_to_scalar_quantization_results_;
+  std::map<std::string, HuffmanCodingData> name_to_huffman_coding_results_;
 };
 }  // namespace ply_processor

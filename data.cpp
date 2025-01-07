@@ -20,7 +20,7 @@ bool DataLoader::LoadConfig(const std::string& filename) {
       attribute.compression_type =
           attr["compression_type"].as<CompressionType>();
     } else {
-      attribute.compression_type = CompressionType::NONE;
+      attribute.compression_type = CompressionType::SQ;
     }
 
     // size of current attribute
@@ -33,41 +33,6 @@ bool DataLoader::LoadConfig(const std::string& filename) {
     name_to_attributes_[attribute.name] = attribute;
   }
   return true;
-}
-
-template <typename T>
-std::vector<T> DataLoader::GetDataAccordingName(const std::string& name) {
-  if (T == float) {
-    std::vector<float> data;
-    for (const auto& data_base : data_) {
-      if (data->float_variable_stores_.find(name) !=
-          data->float_variable_stores_.end()) {
-        data.push_back(data->float_variable_stores_[name][0]);
-      }
-    }
-    return data;
-  }
-  if (T == int) {
-    std::vector<int> data;
-    for (const auto& data_base : data_) {
-      if (data->int_variable_stores_.find(name) !=
-          data->int_variable_stores_.end()) {
-        data.push_back(data->int_variable_stores_[name][0]);
-      }
-    }
-    return data;
-  }
-  if (T == uchar) {
-    std::vector<uchar> data;
-    for (const auto& data_base : data_) {
-      if (data->uchar_variable_stores_.find(name) !=
-          data->uchar_variable_stores_.end()) {
-        data.push_back(data->uchar_variable_stores_[name][0]);
-      }
-    }
-    return data;
-  }
-  return {};
 }
 
 }  // namespace ply_processor

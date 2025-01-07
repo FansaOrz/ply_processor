@@ -9,10 +9,9 @@ namespace ply_processor {
 
 // Type of compression
 enum CompressionType {
-  NONE = 0,
-  VQ,  // Vector Quantization
-  SQ,  // Scalar Quantization
-  HC,  // Huffman Coding
+  VQ = 0,  // Vector Quantization
+  SQ,      // Scalar Quantization
+  HC,      // Huffman Coding
 
 };
 
@@ -23,11 +22,23 @@ struct Attribute {
   int components = 0;
 };
 
-template <typename T>
 struct ScalarQuantizationData {
   std::vector<uint8_t> data;
-  T min_value;
-  T max_value;
+  float min_value;
+  float max_value;
+};
+
+struct VectorQuantizationData {
+  std::vector<std::vector<float>> code_book;
+  std::vector<size_t> indices;
+};
+
+struct HuffmanCodingData {
+  std::unordered_map<char, std::string> char_to_code;
+  std::vector<uint8_t> encoded_data;
+
+  // padding bits of last byte
+  int padding_bits;
 };
 
 /*
@@ -63,7 +74,7 @@ class DataLoader {
   BaseData* GetData(int index) { return data_[index]; }
 
   BaseData* NewData() {
-    data_.emplace_back(new BaseData(GetAttributes()));
+    data_.emplace_back(new BaseData());
     return data_.back();
   }
 
